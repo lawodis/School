@@ -1,5 +1,7 @@
 /*
-	Abutton.java
+	Author:	Fleury
+
+	File:	Abutton.java
 */
 
 import java.awt.*;
@@ -7,56 +9,54 @@ import java.awt.event.*;
 
 public class Abutton
 {
-	public static final
-		int BUTTON_WIDTH = 72,		//	To define a "standard" size button
-			BUTTON_HEIGHT = 30;
+	public final static int					//	To define the size of our buttons
+				BUTTON_WIDTH = 64,
+				BUTTON_HEIGHT = BUTTON_WIDTH / 2;
 
 	//
-	//	Constructors
-	//	============
+	//	Default constructor.
 	//
-	//	Instantiates a button from scratch.
 	public Abutton()
-	{
-		this("?????", Color.black, 100, 100);
-	}
-
-	//	Instantiates a button of a "standard" size,
-	//		given the rest of its components.
-	public Abutton(String someLabel, Color someColor,
-					  int someX, int someY)
-	{
-		this(someLabel, someColor, someX, someY,
-				BUTTON_WIDTH, BUTTON_HEIGHT);
-	}
-
-	//	Instantiates a button given all its components.
-	public Abutton(String someLabel, Color someColor,
-					  int someX, int someY,
-					  int someWidth, int someHeight)
-	{
-		setup(someLabel, someColor, someX, someY,
-				someWidth, someHeight);
+	{										//	By default, we create a button
+		this("?????",						//		with a questionable label,
+			 Color.black,					//		in plain black
+			 43, 47,						//		at an arbitrary location,
+			 143, 147);						//		and with an arbitrary size,
 	}
 
 	//
-	//	Initializes the components of a button.
+	//	Most specific constructor.
 	//
-	public void setup(String someLabel, Color someColor,
+	public Abutton(String someLabel,
+				   Color someColor,
+				   int someX, int someY,
+				   int someWidth, int someHeight)
+	{										//	We create a button
+		setup(someLabel,					//		with a given label,
+			  someColor,					//		in a given color
+			  someX, someY,					//		at a given location,
+			  someWidth, someHeight);		//		and with a given size,
+	}
+
+	//
+	//	Initializes (or re-sets) the components of a button.
+	//
+	public void setup(String someLabel,
+					  Color someColor,
 					  int someX, int someY,
 					  int someWidth, int someHeight)
 	{
-		theLabel = someLabel;
-		theColor = someColor;
+		label = someLabel;
+		color = someColor;
 		x = someX;
 		y = someY;
 		width = someWidth;
 		height = someHeight;
-		up = true;
+		up = false;							//	Initially, the button is not up
 	}
 
 	//
-	//	Flips the up/down state of a button (for 3-D effects)
+	//	Flips the up/down state of a button
 	//
 	public void flip()
 	{
@@ -70,11 +70,11 @@ public class Abutton
 	public boolean isInside(int someX, int someY)
 	{
 		return ((someX >= x) && (someX <= x + width)
-				&& (someY >= y) && (someY <= y + height));
+				&& (someY >= y) && (someY <= y + height));								//	*****
 	}
 
 	//
-	//	Draws a button
+	//	Draws/paints the button
 	//
 	public void paint(Graphics pane)
 	{
@@ -84,29 +84,25 @@ public class Abutton
 		pane.setColor(Color.black);			//	Drawing the button frame
 		pane.drawRect(x, y, width, height);	//		in black,
 
-		pane.setColor(theColor);			//	and the inside of the button
-		pane.fill3DRect(x + DELTA, y + DELTA,	//	in the button color
+		pane.setColor(color);				//		and the inside of the button
+		pane.fill3DRect(x + DELTA, y + DELTA,	//	in the given color
 						width - (2*DELTA - 1),
 						height - (2*DELTA - 1),
 						up);
 
 		pane.setColor(Color.black);			//	Finally, we put the label in black
 											//		... and nicely centered
-		int labelWidth = pane.getFontMetrics().stringWidth(theLabel);
+		int labelWidth = pane.getFontMetrics().stringWidth(label);
 		int labelHeight = pane.getFontMetrics().getAscent();
-		pane.drawString(theLabel,
+		pane.drawString(label,
 						x + (width - labelWidth)/2,
 						y + (height + labelHeight)/2);
 	}
 
-//
-//	The instance variables
-//
-	private String theLabel;				//	To hold the label,
-	private Color theColor;					//		the color,
-	private int x, y,						//		the location, and
-				width, height;				//		the size of the button
+	private String label;					//	To hold the label,
+	private Color color;					//		the color,
+	private int x, y,						//		the location,
+				width, height;				//		and the size of the button
 
-	private boolean up;						//	To achieve 3-D effects
-
-}	//	end Abutton
+	private boolean up;						//	To know if the button is up or not
+}

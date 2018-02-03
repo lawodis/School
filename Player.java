@@ -1,98 +1,159 @@
-/*
- * Jack Wood
- * 
- * This Class defines the actions of a player playing poker, it is used for the user and the computer
- */
-import java.awt.Color;
-import java.awt.Graphics;
+//Jack Wood
 
-public class Player
+import java.util.Scanner;
+
+public class Player 
 {
-	private Player opponent;
+	private String playerName;
 	
-	private Hand hand;	
+	private Character playerCharacter;
 	
-	private int xHandPosition,
-				yHandPosition;
+	private Scanner keyboard = new Scanner(System.in);
 	
-	public Player(int x, int y)
+	private static final String HUMAN = "human",
+						 		ELF = "elf",
+						 		DWARF = "dwarf",
+						 		GNOME = "gnome",
+						 		HALFLING = "halfling",
+						 		HALF_ELF = "half elf",
+						 		HALF_ORC = "half orc";
+	
+	public Player()
 	{
-		hand = null;
+		System.out.print("Enter Player's name here:");
+			
+		setPlayerName(keyboard.nextLine());			
+
+		createNewCharacter();
+	}
+	
+	public Player(String name)
+	{
+		setPlayerName(name);
 		
-		setHandPosition(x,y);
+		createNewCharacter();
 	}
 	
-	public void cardFromDealer(Card newCard)
-	{		
-		if(hand == null)
-		{
-			hand = new Hand(this);
-		}		
-		
-		hand.add(newCard);
-	}
-	
-	public void flipCards()
+	public void setPlayerName(String name)
 	{
-		hand.flipCards();
-	}
-	
-	public void setOpponent(Player opponent)
-	{
-		this.opponent = opponent;
-	}
-	
-	public Player getOpponent()
-	{
-		return opponent;
-	}
-	
-	public void rankHand()
-	{
-		hand.rankHand();		
-	}
-	
-	public String getHandName()
-	{
-		return hand.getHandName();
-	}
-	
-	public int getHandRank()
-	{
-		return hand.getHandRank();
-	}
-	
-	public Card fold()
-	{
-		Card hand = this.hand.getHand();
-		
-		this.hand = null;
+		playerName = name.trim();
 				
-		return hand;
+		return;
 	}
 	
-	public void setHandPosition(int x, int y)
+	public String getPlayerName()
 	{
-		xHandPosition = x;
+		return playerName;
+	}
+	
+	public String getCharacterName()
+	{
+		return this.playerCharacter.getCharacterName();
+	}
+	
+	public void createNewCharacter()
+	{
+		System.out.print("\nPlease enter one of the following for the character's race:\nhuman, elf, dwarf, gnome," +
+						 " halfling, half elf, half orc\n\n");
 		
-		yHandPosition = y;
-	}
-	
-	public int getXHandPosition()
-	{
-		return xHandPosition;
-	}
-	
-	public int getYHandPosition()
-	{
-		return yHandPosition;
-	}
-	
-	public void paint(Graphics pane)
-	{
-		if(hand != null)
+		String race = keyboard.nextLine();
+		
+		if(race.equals(HUMAN))
 		{
-			hand.paint(pane);
-		}		
+			createNewHuman();
+		}
+		else if(race.equals(ELF))
+		{
+			createNewElf();
+		}
+		else if(race.equals(DWARF))
+		{
+			createNewDwarf();
+		}
+		else if(race.equals(GNOME))
+		{
+			createNewGnome();
+		}
+		else if(race.equals(HALFLING))
+		{
+			createNewHalfling();
+		}
+		else if(race.equals(HALF_ELF))
+		{
+			createNewHalfElf();
+		}
+		else if(race.equals(HALF_ORC))
+		{
+			createNewHalfOrc();
+		}
+		else
+		{
+			System.out.println("Please reenter the race to match one of the listed race");
+			
+			createNewCharacter();
+		}
+		
+		return;
+	}
+	
+	public void createNewHuman()
+	{
+		playerCharacter = new Human();
+		
+		return;
+	}
+	
+	public void createNewElf()
+	{
+		playerCharacter = new Elf();
+		
+		return;
+	}
+	
+	public void createNewDwarf()
+	{
+		playerCharacter = new Dwarf();
+		
+		return;
+	}
+	
+	public void createNewGnome()
+	{
+		playerCharacter = new Gnome();
+		
+		return;
+	}
+	
+	public void createNewHalfling()
+	{
+		playerCharacter = new Halfling();
+		
+		return;
+	}
+	
+	public void createNewHalfElf()
+	{
+		playerCharacter = new HalfElf();
+		
+		return;
+	}
+	
+	public void createNewHalfOrc()
+	{
+		playerCharacter = new HalfOrc();
+		
+		return;
+	}
+			
+	public Character getPlayerCharacter()
+	{
+		return playerCharacter;
+	}
+
+	public int rollD20()
+	{
+		Dice d20 = new Dice();
+		
+		return d20.read();
 	}
 }
